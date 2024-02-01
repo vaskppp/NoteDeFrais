@@ -1,9 +1,9 @@
 <?php
 // Connexion à la base de données (à adapter avec vos paramètres de connexion)
 $servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "nom_de_la_base_de_donnees";
+$username = "visiteur";
+$password = "1234";
+$dbname = "base";
 
 // Créer une connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,26 +13,62 @@ if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
 }
 
-// Récupérer le mois sélectionné par l'utilisateur
-$mois = $_POST["mois"];
-
-// Requête SQL pour récupérer les informations de la fiche de frais du mois sélectionné
-$sql = "SELECT * FROM fiches_de_frais WHERE mois = '$mois' AND utilisateur_id = 'id_de_l_utilisateur_connecte'";
+// Requête SQL pour sélectionner toutes les lignes de la table fiches_de_frais
+$sql = "SELECT * FROM fiches_de_frais";
 
 $result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // Afficher les informations de la fiche de frais
-    while($row = $result->fetch_assoc()) {
-        echo "Date associée : " . $row["date_associée"] . "<br>";
-        echo "Éléments forfaitisés : <br>";
-        echo "Quantité pour chaque type de frais forfaitisé : <br>";
-        // Afficher les éléments forfaitisés
-        echo "Éléments non forfaitisés : <br>";
-        // Afficher les éléments non forfaitisés
-    }
-} else {
-    echo "Aucune fiche de frais disponible pour le mois sélectionné.";
-}
-$conn->close();
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulter fiches de frais</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="accueil_visiteur.php">Accueil</a>
+        <a href="login.html">Connexion</a>
+        <a href="consulter_fiches_de_frais.html">consulter</a>
+        <a href="renseigner_fiche_de_frais.php">renseigner</a>
+    </div>
+    <div class="fiches-container">
+        <h2>Consulter fiches de frais</h2>
+        <form action="consulter_fiches_de_frais.php" method="post">
+            <label for="mois">Sélectionner un mois :</label>
+            <select id="mois" name="mois" required>
+                <!-- Options de sélection des mois -->
+                <!-- Vous pouvez générer dynamiquement les options en fonction des mois disponibles pour l'utilisateur -->
+                <option value="01">Janvier</option>
+                <option value="02">Février</option>
+                <!-- Ajoutez les autres mois jusqu'au mois actuel -->
+            </select>
+            <input type="submit" value="Valider">
+        </form>
+    </div>
+
+    <div class="content">
+        <!-- Contenu de la page -->
+        <?php
+        if ($result->num_rows > 0) {
+            // Afficher les données de chaque ligne
+            while($row = $result->fetch_assoc()) {
+                echo "ID: " . $row["id"]. "<br>";
+                echo "Etape: " . $row["etape"]. "<br>";
+                echo "Kilomètres: " . $row["kilometres"]. "<br>";
+                echo "Nuitées: " . $row["nuitees"]. "<br>";
+                echo "Repas: " . $row["repas"]. "<br>";
+                echo "Date: " . $row["date"]. "<br>";
+                echo "Libellé: " . $row["libelle"]. "<br>";
+                echo "Montant: " . $row["montant"]. "<br>";
+                echo "<hr>"; // Séparateur entre chaque ligne
+            }
+        } else {
+            echo "Aucune fiche de frais disponible.";
+        }
+        $conn->close();
+        ?>
+    </div>
+</body>
+</html>
