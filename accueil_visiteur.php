@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil Visiteur</title>
+    <h1>Bienvenue, <?php echo $_SESSION["username"]; ?></h1>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
