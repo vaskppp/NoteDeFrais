@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulter fiches de frais</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="fiches-container">
+        <h2>Consulter fiches de frais</h2>
+        <form action="consulter_fiches_de_frais.php" method="post">
+            <label for="mois">Sélectionner un mois :</label>
+            <select id="mois" name="mois" required>
+                <!-- Options de sélection des mois -->
+                <!-- Vous pouvez générer dynamiquement les options en fonction des mois disponibles pour l'utilisateur -->
+                <option value="01">Janvier</option>
+                <option value="02">Février</option>
+                <!-- Ajoutez les autres mois jusqu'au mois actuel -->
+            </select>
+            <input type="submit" value="Valider">
+        </form>
+    </div>
+</body>
+</html>
