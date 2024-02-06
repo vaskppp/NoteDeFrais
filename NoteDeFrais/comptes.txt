@@ -1,2 +1,0 @@
-visiteur,1234,Visiteur
-comptable,1234,Comptable
