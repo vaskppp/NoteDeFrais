@@ -28,13 +28,13 @@
 
 <div class="navbar">
     <a href="index.php">Accueil</a>
-    <a href="login.html">Connexion</a>
+    <a href="login.php">Connexion</a>
 </div>
 
 <div class="content">
     <h2>Bienvenue sur la page d'accueil</h2>
     <!-- Contenu de la page d'accueil -->
-    <a href="login.html" class="login-button">Connexion</a>
+    <a href="login.php" class="login-button">Connexion</a>
 </div>
 
 </body>
