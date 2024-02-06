@@ -1,51 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renseigner fiche de frais</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    
-<div class="navbar">
-    <a href="accueil_visiteur.php">Accueil</a>
-    <a href="login.html">Connexion</a>
-    <a href="consulter_fiches_de_frais.php">Consulter</a>
-    <a href="renseigner_fiche_de_frais.php">Renseigner</a>
-</div>
-
-<div class="frais-container">
-    <h2>Renseigner fiche de frais</h2>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <h3>Frais forfaitaires :</h3>
-        <label for="etape">Forfait Etape :</label>
-        <input type="text" id="etape" name="etape" value="0"> (aucun)
-        
-        <label for="kilometres">Frais kilométriques :</label>
-        <input type="text" id="kilometres" name="kilometres" value="750"> km
-        
-        <label for="nuitees">Nuitée hôtel :</label>
-        <input type="text" id="nuitees" name="nuitees" value="9"> nuits
-        
-        <label for="repas">Repas restaurant :</label>
-        <input type="text" id="repas" name="repas" value="12"> repas
-        
-        <!-- Champs pour les frais hors forfait -->
-        <h3>Frais hors forfait :</h3>
-        <label for="date">Date :</label>
-        <input type="date" id="date" name="date" required>
-        
-        <label for="libelle">Libellé :</label>
-        <input type="text" id="libelle" name="libelle" required>
-        
-        <label for="montant">Montant :</label>
-        <input type="text" id="montant" name="montant" required>
-        
-        <input type="submit" value="Valider">
-    </form>
-</div>
-
 <?php
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -89,13 +41,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erreur lors de l'enregistrement de la fiche de frais : " . $conn->error;
     }
 
-    // Fermer la connexion
+    // Fermer la connexion à la base de données
     $conn->close();
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renseigner fiche de frais</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+<div class="navbar">
+    <a href="accueil_visiteur.php">Accueil</a>
+    <a href="login.php">Connexion</a>
+    <a href="consulter_fiches_de_frais.php">Consulter</a>
+    <a href="renseigner_fiche_de_frais.php">Renseigner</a>
+</div>
+
+<div class="frais-container">
+    <h2>Renseigner fiche de frais</h2>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <h3>Frais forfaitaires :</h3>
+        <label for="etape">Forfait Etape :</label>
+        <input type="text" id="etape" name="etape" value="0"> (aucun)
+        
+        <label for="kilometres">Frais kilométriques :</label>
+        <input type="text" id="kilometres" name="kilometres" value="750"> km
+        
+        <label for="nuitees">Nuitée hôtel :</label>
+        <input type="text" id="nuitees" name="nuitees" value="9"> nuits
+        
+        <label for="repas">Repas restaurant :</label>
+        <input type="text" id="repas" name="repas" value="12"> repas
+        
+        <!-- Champs pour les frais hors forfait -->
+        <h3>Frais hors forfait :</h3>
+        <label for="date">Date :</label>
+        <input type="date" id="date" name="date" required>
+        
+        <label for="libelle">Libellé :</label>
+        <input type="text" id="libelle" name="libelle" required>
+        
+        <label for="montant">Montant :</label>
+        <input type="text" id="montant" name="montant" required>
+        
+        <input type="submit" value="Valider">
+    </form>
+</div>
+
 </body>
 </html>
+
 <style>body {
     font-family: Arial, sans-serif;
     margin: 0;

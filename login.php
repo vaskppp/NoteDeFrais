@@ -1,14 +1,10 @@
 <?php
-session_start(); // Démarrer la session pour stocker les informations de connexion
+session_start();
 
-
-// Vérifier si le formulaire de connexion a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les informations d'identification
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Connexion à la base de données
     $servername = "localhost";
     $usernameDB = "visiteur";
     $passwordDB = "1234";
@@ -16,44 +12,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = new mysqli($servername, $usernameDB, $passwordDB, $dbname);
 
-    // Vérifier la connexion
     if ($conn->connect_error) {
         die("Erreur de connexion à la base de données : " . $conn->connect_error);
     }
 
-    // Requête SQL pour récupérer les informations du compte
-    $sql = "SELECT * FROM comptes WHERE username = '$username'";
-    $result = $conn->query($sql);
+    // Afficher les informations de connexion à la base de données pour débogage
+    echo "Connecté avec succès à la base de données<br>";
+
+    $sql = "SELECT * FROM comptes WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Compte trouvé, vérifier le mot de passe
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
-            // Mot de passe correct, stocker les informations de connexion dans la session
             $_SESSION["username"] = $username;
             $_SESSION["profil"] = $row['profil'];
 
-            // Rediriger vers la page appropriée selon le profil
-            if ($row['username'] === 'Visiteur') {
+            if ($row['profil'] === 'Visiteur') {
                 header("Location: accueil_visiteur.php");
-                exit(); // Arrêter le script après la redirection
-            } elseif ($row['username'] === 'Comptable') {
+                exit();
+            } elseif ($row['profil'] === 'Comptable') {
                 header("Location: accueil_comptable.php");
-                exit(); // Arrêter le script après la redirection
+                exit();
             }
         } else {
-            // Mot de passe incorrect
             $messageErreur = "Nom d'utilisateur ou mot de passe incorrect. Veuillez réessayer.";
         }
     } else {
-        // Compte non trouvé
         $messageErreur = "Nom d'utilisateur ou mot de passe incorrect. Veuillez réessayer.";
     }
 
+    // Fermer la requête préparée
+    $stmt->close();
     // Fermer la connexion à la base de données
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,5 +1,6 @@
-use base.sql
-CREATE base.sql if  not EXISTS-- Créer une table pour stocker les comptes
+
+CREATE DATABASE IF NOT EXISTS base;
+use base;
 -- Créer la table fiches_de_frais
 CREATE TABLE fiches_de_frais (
     id INT AUTO_INCREMENT PRIMARY KEY,
