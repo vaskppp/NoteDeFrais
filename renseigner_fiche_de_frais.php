@@ -1,3 +1,51 @@
+<?php
+// Vérifier si le formulaire a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupérer les données du formulaire
+    $etape = $_POST["etape"];
+    $kilometres = $_POST["kilometres"];
+    $nuitees = $_POST["nuitees"];
+    $repas = $_POST["repas"];
+    $date = $_POST["date"];
+    $libelle = $_POST["libelle"];
+    $montant = $_POST["montant"];
+    
+    // Valider les données (vous pouvez ajouter des validations supplémentaires ici)
+    if (!is_numeric($etape) || !is_numeric($kilometres) || !is_numeric($nuitees) || !is_numeric($repas) || !is_numeric($montant)) {
+        echo "Erreur : Les valeurs des frais doivent être numériques.";
+        exit(); // Arrêter le script
+    }
+
+    // Connexion à votre système de stockage (par exemple, une base de données)
+    // Remplacez les valeurs ci-dessous par vos propres informations de connexion
+    $servername = "localhost";
+    $username = "visiteur";
+    $password = "1234";
+    $dbname = "gsbV2";
+
+    // Créer une connexion
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if ($conn->connect_error) {
+        die("Erreur de connexion à la base de données : " . $conn->connect_error);
+    }
+
+    // Préparer et exécuter la requête SQL pour insérer les données dans votre système de stockage
+    $sql = "INSERT INTO fiches_de_frais (etape, kilometres, nuitees, repas, date, libelle, montant)
+    VALUES ('$etape', '$kilometres', '$nuitees', '$repas', '$date', '$libelle', '$montant')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Fiche de frais enregistrée avec succès.";
+    } else {
+        echo "Erreur lors de l'enregistrement de la fiche de frais : " . $conn->error;
+    }
+
+    // Fermer la connexion à la base de données
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,7 +58,7 @@
     
 <div class="navbar">
     <a href="accueil_visiteur.php">Accueil</a>
-    <a href="login.html">Connexion</a>
+    <a href="login.php">Connexion</a>
     <a href="consulter_fiches_de_frais.php">Consulter</a>
     <a href="renseigner_fiche_de_frais.php">Renseigner</a>
 </div>
@@ -46,56 +94,9 @@
     </form>
 </div>
 
-<?php
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les données du formulaire
-    $etape = $_POST["etape"];
-    $kilometres = $_POST["kilometres"];
-    $nuitees = $_POST["nuitees"];
-    $repas = $_POST["repas"];
-    $date = $_POST["date"];
-    $libelle = $_POST["libelle"];
-    $montant = $_POST["montant"];
-    
-    // Valider les données (vous pouvez ajouter des validations supplémentaires ici)
-    if (!is_numeric($etape) || !is_numeric($kilometres) || !is_numeric($nuitees) || !is_numeric($repas) || !is_numeric($montant)) {
-        echo "Erreur : Les valeurs des frais doivent être numériques.";
-        exit(); // Arrêter le script
-    }
-
-    // Connexion à votre système de stockage (par exemple, une base de données)
-    // Remplacez les valeurs ci-dessous par vos propres informations de connexion
-    $servername = "localhost";
-    $username = "visiteur";
-    $password = "1234";
-    $dbname = "base";
-
-    // Créer une connexion
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("Erreur de connexion à la base de données : " . $conn->connect_error);
-    }
-
-    // Préparer et exécuter la requête SQL pour insérer les données dans votre système de stockage
-    $sql = "INSERT INTO fiches_de_frais (etape, kilometres, nuitees, repas, date, libelle, montant)
-    VALUES ('$etape', '$kilometres', '$nuitees', '$repas', '$date', '$libelle', '$montant')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Fiche de frais enregistrée avec succès.";
-    } else {
-        echo "Erreur lors de l'enregistrement de la fiche de frais : " . $conn->error;
-    }
-
-    // Fermer la connexion
-    $conn->close();
-}
-?>
-
 </body>
 </html>
+
 <style>body {
     font-family: Arial, sans-serif;
     margin: 0;

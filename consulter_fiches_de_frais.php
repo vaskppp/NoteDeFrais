@@ -19,7 +19,7 @@ if (isset($_POST["logout"])) {
 $servername = "localhost";
 $username = "visiteur";
 $password = "1234";
-$dbname = "base";
+$dbname = "gsbV2";
 
 // Créer une connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
